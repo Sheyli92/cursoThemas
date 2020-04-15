@@ -1,0 +1,457 @@
+/*
+Theme Name: GymFitnessFlexCSSGrid
+Theme URI:
+Author: Sheimy Patiño
+Description: Gimnasio
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: https://wwww.gnu.org/licenses/gpl-2.0.html
+Tags: Gym, gimnasio, flexbox, css grid, mobile first
+Text domain: gymfitness 
+*/
+/*
+Se va a utilizar custom properties, estas son cm varables
+*/
+
+:root {
+    /*Fuentes*/
+    --fuenteprincipal : 'Staatliches', cursive; 
+    --fuenteTexto: 'Open Sans', sans-serif;
+    --fuenteSecundaria: 'Berkshire Swash', cursive;
+
+/*    font-family: 'Germania One', cursive;
+font-family: 'Kumar One', cursive;
+font-family: 'Notable', sans-serif;
+font-family: 'Raleway', sans-serif;
+font-family: 'Playball', cursive;*/
+
+
+    /*Colores*/
+    --colorPrimario: #5e2129;
+    --escalaGris: #404040;
+    --blanco: #ffffff;
+    --negro: #000000;
+    --azulado:#00797f;
+}
+html{
+    /*util para el padding que se ven afectados cuando se agrego un ancho*/
+    box-sizing: border-box;
+    font-size: 62.5%;/*10px=1rem*/
+}
+
+*, *:before, *:after{
+    box-sizing: inherit;
+}
+
+body{
+    font-size: 16px;
+    font-size: 1.6rem;
+    line-height:2;
+    font-family: var(--fuenteSecundaria);
+}
+
+
+/*headings, encabezados*/
+h1,h2,h3,h4{
+    font-family: var(--fuenteprincipal);
+    margin: 1rem 0;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 6rem;
+}
+h2{
+    font-size: 4.8rem;
+}
+h3{
+    font-size: 3.6rem;
+}
+h4{
+    font-size: 2.4rem;
+}
+
+/*Estilos globales*/
+a{
+    text-decoration: none;    
+}
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+.contenedor{
+    max-width: 1200px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.imagen-destacada{
+    margin-bottom: 3rem;
+}
+/*Utilidades*/
+.text-center{
+    text-align: center;
+}
+.texto-primario{
+    color: var(--azulado);
+}
+
+.seccion{
+    padding: 5rem 0;
+}
+
+/*trabajando en movil*/
+/*Header*/
+.site-header{
+    background-color: var(--colorPrimario);    
+    padding: 2rem 0;
+}
+
+@media (min-width:768px){
+    /*este estilo solo se palica cuando esta en este tamanio*/
+    .barra-navegacion{
+        display: flex;
+        justify-content: space-between;
+    } 
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+}
+/*Menu principal
+ocultamos el menu principal para movil  
+*/
+.menu-principal{
+    display: none;
+}
+/*media query
+@media(min-width:768px){
+    .menu-principal{
+        display: block;
+    }
+} esto se sustituye por: */ 
+/*pero esto debe aberse creado para ello se lo hizo con use snippets de css, se va a file*/
+@media (min-width:768px){/*768 para tablets y mayor*/
+    .menu-principal{
+        display: flex; /*para que esten en horizonal*/
+        align-items: center;/*deben estar centrados los menus*/
+        justify-content: flex-end;/*justificamos el menu al final de la pag*/
+    }
+
+    .menu-principal .menu{
+        display: flex;
+        justify-content: space-around;
+    }
+    /*margen entre link del menu*/
+    .menu-principal li{
+        margin-right: 2rem;
+    }
+    /*elimina el margin a la derecha del ultimo enlace*/
+    .menu-principal li:last-of-type{
+        margin-right: 0;
+    }
+}
+/*estilos del a (link) del menu principal*/
+.menu-principal a{
+    font-family: var(--fuenteprincipal);
+    color:var(--blanco);    
+    font-size: 2.6rem;
+    padding: .5rem 2rem;
+}
+/*el texto adquiere este tamano cuando es >=768*/
+@media (min-width:768px){
+    .menu-principal a{
+        font-size: 2.6rem;
+        position: relative;
+        z-index: 1;/*se va a trabajar con pos absolutas*/        
+    }
+    /*vamos a crear seudoelementos*/
+    /*para los dos, es decir, arriba numero mayor y abajo numero menor*/
+    .menu-principal a::before,
+    .menu-principal a::after{
+        position: absolute;
+        left: 0;
+        content: '';
+        display: block;
+        width: 100%;
+        height: 50%;
+        background-color: #00797f;
+        z-index: -1;/*va a estar un poco detras*/
+        transform: scaleX(0);
+        transition: transform .6s;/*hace que el efecto se una desde derSup/izInf*/
+    }
+    .menu-principal a::before{
+        top: 0;     
+        transform-origin: left;   
+    }
+    
+    .menu-principal a::after{
+        top: 50%;
+        transform-origin: right;
+    }
+    .menu-principal a:hover::before{
+        transform: scaleX(1);
+    }
+    .menu-principal a:hover::after{
+        transform: scaleX(1);
+    }
+}
+/*ponemos la linea debajo del menu*/
+.menu-principal .current_page_item{
+    border-bottom: 3px solid #00797f;
+}
+
+/*estilos menu movil
+utilizamos la libreria slicknav
+*/
+
+.slicknav_menu{
+    background-color: var(--colorPrimario);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+@media (min-width:768px){
+    .slicknav_menu{
+        display: none;
+    }
+}
+.slicknav_btn{
+    background-color: var(--escalaGris);
+    margin: 2rem 0;
+    padding: 1.5rem;
+}
+
+.slicknav_nav a{
+    font-size: 2.4rem;
+    text-align: center;
+    font-family: var(--fuenteprincipal);
+}
+/*si no nos gusta el color de sombreado, entonces lo cambiamos con lo siguietne*/
+.slicknav_nav a:hover{
+    background: transparent;
+    color: #00797f; /*color de letra*/
+}
+
+/*stilos footer*/
+.contenido-footer{
+    padding: 4rem 0;
+}
+
+@media (min-width:768px){
+    .contenido-footer{
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.site-footer .menu-principal{
+    text-align: center;
+    display: block;
+}
+.site-footer a{
+    color: var(--negro);
+    text-align: center;    
+    font-size: 2.4rem;
+    padding: 0 1rem;
+}
+
+.site-footer .menu-principal .current_page_item{
+    border: none;
+}
+@media (min-width:768px){
+    .site-footer .menu-principal .current_page_item{
+        border-bottom: 3px solid #00797f;    
+    }    
+}
+
+/*quitamos los efectos de transicion para el menu del footer*/
+.site-footer .menu-principal a::before,
+.site-footer .menu-principal a::after{
+    display: none;
+}
+
+.copyright{
+    text-align: center;
+    font-family: var(--fuenteprincipal);     
+    font-size: 2.4rem;
+    margin: 0;
+}
+
+/*Paginas*/
+.pagina h1{
+    margin-bottom: 4rem;
+}
+/*separaciom de bloque de img y sidebar*/
+@media (min-width:768px){
+    .pagina.con-sidebar{
+        display: flex;
+        justify-content: space-between;    
+    }
+    .con-sidebar .contenido-principal{
+        flex: 0 0 calc(65% - 2rem);
+    }
+
+    .con-sidebar .sidebar{
+        flex: 0 0 calc(35% - 2rem);
+    }
+}
+
+/*No sidebar*/
+.no-sidebar{
+    display: flex;
+    justify-content: center;
+}
+
+.no-sidebar .contenido-principal{
+    flex: 0 1 800px;/*1 indic que si la base sobrepasa me lo haga mas pequeni*/
+}
+
+/*Single clases*/
+.informacion-clase{
+    font-weight: 700;
+    font-family:var(--fuenteSecundaria);
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+
+/*bloque de widgets
+quitar el li de la info que esta dentro d la clase sidebar*/
+.sidebar li{
+    list-style: none;
+}
+
+
+/*------------------------------Clases---------------------------------------*/
+/*lista-clases lo traemos de queries.php*/
+.lista-clases{
+    margin-top: 4rem;
+}
+
+@media (min-width:768px){
+    .lista-clases{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+/*------------------------------Cards// Movil//---------------------------------------*/
+/*lista-clases lo traemos de queries.php*/
+@media (min-width:768px){
+    .gradient::after{
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b5bdc8+2,828c95+43,28343b+100&0.2+37,0.8+99 */
+background: -moz-linear-gradient(top,  rgba(181,189,200,0.2) 2%, rgba(137,147,156,0.2) 37%, rgba(130,140,149,0.26) 43%, rgba(42,54,61,0.8) 99%, rgba(40,52,59,0.8) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(181,189,200,0.2) 2%,rgba(137,147,156,0.2) 37%,rgba(130,140,149,0.26) 43%,rgba(42,54,61,0.8) 99%,rgba(40,52,59,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(181,189,200,0.2) 2%,rgba(137,147,156,0.2) 37%,rgba(130,140,149,0.26) 43%,rgba(42,54,61,0.8) 99%,rgba(40,52,59,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33b5bdc8', endColorstr='#cc28343b',GradientType=0 ); /* IE6-9 */
+
+    }
+}
+
+.card{
+    margin-bottom: 4rem;
+}
+
+@media (min-width:768px){
+    .card{
+        flex: 0 0 calc(50% - 2rem);
+        position: relative;
+    } 
+}
+
+.card img{
+    display: block;
+}
+
+.card .contenido{
+    padding:3rem;    
+}
+@media (min-width:768px){
+    .card .contenido{        
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        text-align: left;
+        z-index: 2;
+    }
+}
+
+.card .contenido h3{
+    line-height: 1;
+    color: var(--colorPrimario);
+}
+
+@media (min-width:768px){
+    .card .contenido h3{
+        color: var(--blanco);
+    }
+
+}
+
+.card .contenido p{
+    font-weight: 700;
+    font-size: 2 rem;
+    margin-top: 0;
+}
+
+@media (min-width:768px){
+    .card .contenido p{
+        color: var(--blanco);
+    }
+}
+
+/*-------------------------Clases sidebar------------------------------------*/
+.clase-sidebar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--escalaGris);
+}
+
+.clase-sidebar:last-of-type{
+    border-bottom: none;
+}
+
+.clase-sidebar .imagen{
+    flex: 0 0  30%;
+}
+
+.clase-sidebar .imagen img{
+    display: block;
+}
+
+.clase-sidebar .contenido-clase{
+    flex: 0 0 calc(70% - 2rem);
+}
+
+.clase-sidebar .contenido-clase h3{
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+.clase-sidebar .contenido-clase h3{ 
+    color: var(--colorPrimario);
+}
+
+.clase-sidebar .contenido-clase p{ 
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.4rem;
+}
